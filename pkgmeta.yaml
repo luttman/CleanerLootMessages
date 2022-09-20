@@ -1,20 +1,8 @@
-package-as: ChatCleaner
+package-as: CleanerLootMessages
 enable-nolib-creation: no
 
 move-folders:
-    ChatCleaner/ChatCleaner: ChatCleaner
-
-manual-changelog:
-    filename: CHANGELOG.md
-    markup-type: markdown
-
-license-output: LICENSE.txt
+    Cleaner-Loot-Messages/CleanerLootMessages: CleanerLootMessages
 
 ignore:
-    - CHANGELOG.md
-    - CODE_OF_CONDUCT.md
-    - LICENSE.md
-    - README.md
-    - .editorconfig
-    - .github
-    
+    - README.md   
