@@ -1,8 +1,0 @@
-## Interface: 11403
-
-## Title: Cleaner Loot Messages
-## Author: LuttmaN
-## Notes: Smaller, simplier and lighter loot messages
-## Version: @project-version@
-
-CleanerLootMessages.lua
