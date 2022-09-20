@@ -18,3 +18,6 @@ Work for group loot, craft, harvesting, reputation, XP ...
  
 
 This addon is really light and has an extremely low impact on the game as it only redefine the way the message are formated.
+
+
+![alt text](https://media.forgecdn.net/avatars/610/160/637991886758420689.png)
