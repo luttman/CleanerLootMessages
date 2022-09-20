@@ -1,7 +1,7 @@
 ## Title: Cleaner Loot Messages
 ## Author: LuttmaN
 ## Notes: Smaller, simplier and lighter loot messages
-## Version: 1.0.3
+## Version: 1.0.4
 
 CleanerLootMessages.lua
 
