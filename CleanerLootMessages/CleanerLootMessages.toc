@@ -1,7 +1,4 @@
 ## Interface: 90100
-## Interface-Classic: 11403
-## Interface-BCC: 20504
-## Interface-Wrath: 30400
 
 ## Title: Cleaner Loot Messages
 ## Author: LuttmaN
