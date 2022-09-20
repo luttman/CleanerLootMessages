@@ -1,8 +1,0 @@
-package-as: CleanerLootMessages
-enable-nolib-creation: no
-
-move-folders:
-    Cleaner-Loot-Messages/CleanerLootMessages: CleanerLootMessages
-
-ignore:
-    - README.md   
