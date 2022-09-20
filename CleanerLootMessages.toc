@@ -6,4 +6,3 @@
 ## Version: @project-version@
 
 CleanerLootMessages.lua
-
