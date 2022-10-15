@@ -4,6 +4,6 @@
 ## X-Wago-ID: Xb6XOxNp
 ## Author: LuttmaN
 ## Notes: Smaller, simplier and lighter loot messages
-## Version: 1.0.13
+## Version: @project-version@
 
 CleanerLootMessages.lua
