@@ -42,6 +42,7 @@ local translateTable = {
 	["LOOT_ITEM_CREATED_SELF"] = "+ %s (craft)",
 	["LOOT_ITEM_CREATED_SELF_MULTIPLE"] = "+ %s x%d (craft)",
 	["YOU_LOOT_MONEY"] = "+ %s",
+	["LOOT_MONEY_SPLIT"] = "+ %s (Shared)",
 	["YOU_LOOT_MONEY_GUILD"] = "+ %s (%s Guild)",
 	["TRADESKILL_LOG_FIRSTPERSON"] = "+ %s (craft)",
 	["TRADESKILL_LOG_THIRDPERSON"] = "+ %s : %s (craft)",
