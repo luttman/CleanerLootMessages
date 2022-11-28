@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100002
 ## Title: Cleaner Loot Messages
 ## X-Curse-Project-ID: 677974
 ## X-Wago-ID: Xb6XOxNp
