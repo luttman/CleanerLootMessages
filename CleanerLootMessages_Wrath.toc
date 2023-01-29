@@ -1,4 +1,4 @@
-## Interface: 30400
+## Interface: 30401
 ## Title: Cleaner Loot Messages
 ## X-Curse-Project-ID: 677974
 ## X-Wago-ID: Xb6XOxNp
