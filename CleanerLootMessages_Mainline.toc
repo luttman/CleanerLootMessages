@@ -3,7 +3,7 @@
 ## X-Curse-Project-ID: 677974
 ## X-Wago-ID: Xb6XOxNp
 ## Author: LuttmaN
-## Notes: Smaller, simplier and lighter loot messages
+## Notes: Smaller, simplier and lighter loot messages ## Notes: Smaller, simplier and lighter loot messages |c00967FD2v@project-version@|r
 ## Version: @project-version@
 
 CleanerLootMessages.lua
