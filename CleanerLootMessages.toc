@@ -1,3 +1,9 @@
+## Interface: 100002
+## Interface-Wrath: 30402
+## Interface-Classic: 11403
 ## Title: Cleaner Loot Messages
-## Notes: This addon will not load due to client incompatability|nPlease remove it from your AddOn directory
-# This ToC file is depreciated and only exists to satisfy automated upload checks
+## X-Curse-Project-ID: 677974
+## X-Wago-ID: Xb6XOxNp
+## Author: LuttmaN
+## Notes: Smaller, simplier and lighter loot messages |c00967FD2v@project-version@|r
+## Version: @project-version@
