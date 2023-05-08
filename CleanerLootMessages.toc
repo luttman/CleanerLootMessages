@@ -7,3 +7,5 @@
 ## Author: LuttmaN
 ## Notes: Smaller, simplier and lighter loot messages |c00967FD2v@project-version@|r
 ## Version: @project-version@
+
+CleanerLootMessages.lua
