@@ -1,1 +1,3 @@
-package-as: CleanerLootMessages
+ignore:
+  - README.md
+  - FUNDING.yml
