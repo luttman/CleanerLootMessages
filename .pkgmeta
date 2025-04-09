@@ -1,3 +1,6 @@
+package-as: CleanerLootMessages
+wowi-archive-previous: no
+
 ignore:
   - README.md
   - FUNDING.yml
