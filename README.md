@@ -46,10 +46,16 @@ Coin colors apply only to English text in money messages. Blizzard's coin
 icons and other languages are left unchanged. Secret Retail messages are not
 inspected or modified.
 
+New appearance unlocks are displayed as `+ template : [Item name]`, preserving
+the item's color and clickable link. The filter matches the client's localized
+appearance notification exactly. Clients without that message format, unsupported
+formats and unrelated system messages keep their original text.
+
 Automated tests use mocked WoW APIs. They do not replace testing in the game.
 Before a release, enable `/console scriptErrors 1`, reload, and check self and
 party loot, stack counts, crafting, money, currency, XP and reputation on each
 client. On Retail, also test combat and `loadDeprecationFallbacks` disabled.
+Collect a new appearance and check the shortened notification and its link.
 Check that item links still open and that there are no Lua or blocked-action
 errors, including alongside other chat addons.
 
