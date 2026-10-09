@@ -1,5 +1,8 @@
 package-as: CleanerLootMessages
 
 ignore:
+  - .github
+  - .gitignore
+  - tests
   - README.md
   - FUNDING.yml
