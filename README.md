@@ -95,6 +95,6 @@ messages untouched. Blizzard retains the right to disable addon functionality.
 
 This is a source review, not Blizzard approval or proof of performance in a
 running client. Changes to Blizzard's global message strings can conflict with
-other chat addons that parse those strings. The repository has no explicit
-license; choose one before granting others redistribution rights. A license
-is separate from Blizzard's requirement that addon code be visible.
+other chat addons that parse those strings. The [existing CurseForge project](https://www.curseforge.com/wow/addons/cleanerlootmessages)
+lists its license as All Rights Reserved; the repository has no separate
+license file. This update does not change the project's license.
