@@ -1,39 +1,45 @@
-# description of this workflow, can be anything you want
-name: Package and release
+name: Check and release
 
-# we need to let GitHub know _when_ we want to release, typically only when we create a new tag.
-# this will target only tags, and not all pushes to the master branch.
-# this part can be heavily customized to your liking, like targeting only tags that match a certain word,
-# other branches or even pullrequests.
 on:
   push:
-    tags:
-      - '**'
+    branches: [main]
+    tags: ['**']
+  pull_request:
 
-# a workflow is built up as jobs, and within these jobs are steps
+permissions:
+  contents: read
+
 jobs:
-
-  # "release" is a job, you can name it anything you want
-  release:
-
-    # we can run our steps on pretty much anything, but the "ubuntu-latest" image is a safe bet
+  check:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua
+        run: sudo apt-get update && sudo apt-get install -y lua5.1
+      - name: Check Lua syntax and compatibility
+        run: |
+          luac5.1 -p CleanerLootMessages.lua
+          lua5.1 tests/compatibility.lua
+      - name: Build without publishing
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -d
+      - name: Check installable ZIP
+        run: python3 tests/package.py
 
-    # specify the environment variables used by the packager, matching the secrets from the project on GitHub
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}  # "GITHUB_TOKEN" is a secret always provided to the workflow
-                                                 # for your own token, the name cannot start with "GITHUB_"
-
-    # "steps" holds a list of all the steps needed to package and release our AddOn
+      WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
     steps:
-
-      # we first have to clone the AddOn project, this is a required step
-      - name: Clone project
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # gets git history for changelogs
-
-      # once cloned, we just run the GitHub Action for the packager project
-      - name: Package and release
+          fetch-depth: 0
+      - name: Package and publish
         uses: BigWigsMods/packager@v2

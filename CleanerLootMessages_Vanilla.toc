@@ -1,9 +1,9 @@
-## Interface: 11403
+## Interface: 11509
 ## Title: Cleaner Loot Messages
 ## X-Curse-Project-ID: 677974
 ## X-Wago-ID: Xb6XOxNp
 ## Author: LuttmaN
-## Notes: Smaller, simplier and lighter loot messages |c00967FD2v@project-version@|r
+## Notes: Smaller, simpler and lighter loot messages |c00967FD2v@project-version@|r
 ## Version: @project-version@
 
 CleanerLootMessages.lua

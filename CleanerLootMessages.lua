@@ -6,32 +6,36 @@ local RESET_COLOR = "|r"
 
 -- Function to color-code currency strings
 local function ColorCurrencyString(currencyString)
-    -- Patterns to match currency amounts (e.g., "1 Gold 2 Silver 3 Copper")
+    -- shortcut: text coin colors are English-only; add localized templates if other text coin formats need colors.
     local gold, silver, copper
-    gold = currencyString:match("(%d+) Gold")
-    silver = currencyString:match("(%d+) Silver")
-    copper = currencyString:match("(%d+) Copper")
+    gold = currencyString:match("(%d+) Gold%f[%A]")
+    silver = currencyString:match("(%d+) Silver%f[%A]")
+    copper = currencyString:match("(%d+) Copper%f[%A]")
 
     local result = currencyString
 
     -- Replace each currency with color-coded version
     if gold then
-        result = result:gsub("(%d+) Gold", GOLD_COLOR .. "%1 Gold" .. RESET_COLOR)
+        result = result:gsub("(%d+) Gold%f[%A]", GOLD_COLOR .. "%1 Gold" .. RESET_COLOR)
     end
     if silver then
-        result = result:gsub("(%d+) Silver", SILVER_COLOR .. "%1 Silver" .. RESET_COLOR)
+        result = result:gsub("(%d+) Silver%f[%A]", SILVER_COLOR .. "%1 Silver" .. RESET_COLOR)
     end
     if copper then
-        result = result:gsub("(%d+) Copper", COPPER_COLOR .. "%1 Copper" .. RESET_COLOR)
+        result = result:gsub("(%d+) Copper%f[%A]", COPPER_COLOR .. "%1 Copper" .. RESET_COLOR)
     end
 
     return result
 end
 
 -- Your existing string pattern match function
-function stringPaternMatch(oldString, newString)
-    local oldPatern = string.gmatch(oldString, "%%.");
-    local newPatern = string.gmatch(newString, "%%.");
+local function stringPaternMatch(oldString, newString)
+    if type(oldString) ~= "string" then
+        return false
+    end
+    -- Compare complete placeholders; leave reordered localized formats unchanged.
+    local oldPatern = oldString:gsub("%%%%", ""):gmatch("%%[%d%$%.%+%- #]*[a-zA-Z]");
+    local newPatern = newString:gsub("%%%%", ""):gmatch("%%[%d%$%.%+%- #]*[a-zA-Z]");
     local oldPaternIteration = oldPatern();
     local newPaternIteration = newPatern();
     while oldPaternIteration ~= nil or newPaternIteration ~= nil do
@@ -110,16 +114,19 @@ local translateTable = {
 };
 
 -- Apply translations
-table.foreach(translateTable, function(k, v)
+for k, v in pairs(translateTable) do
     if _G[k] ~= nil and stringPaternMatch(_G[k], v) == true then
         _G[k] = v
     end
-end);
+end
 
 -- Chat filter to color currency messages
 local function ChatFilter(self, event, message, ...)
+    if (issecretvalue and issecretvalue(message)) or type(message) ~= "string" then
+        return false
+    end
     -- Check for currency-related events
-    if event == "CHAT_MSG_MONEY" or event == "CHAT_MSG_LOOT" then
+    if event == "CHAT_MSG_MONEY" then
         -- Look for currency patterns in the message
         if message:match("%d+ Gold") or message:match("%d+ Silver") or message:match("%d+ Copper") then
             message = ColorCurrencyString(message)
@@ -129,5 +136,5 @@ local function ChatFilter(self, event, message, ...)
 end
 
 -- Register the chat filter
-ChatFrame_AddMessageEventFilter("CHAT_MSG_MONEY", ChatFilter)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", ChatFilter)
+local AddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
+AddMessageEventFilter("CHAT_MSG_MONEY", ChatFilter)
