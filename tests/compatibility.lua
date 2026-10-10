@@ -75,9 +75,9 @@ local function check(modern, appearanceFormat, hasAppearanceFilter)
         }) do
             local original = string.format(appearanceFormat, link)
             local hidden, message, sender, trailing = appearanceFilter(nil, "CHAT_MSG_SYSTEM", original, "", 42)
-            assert(hidden == false and message == "+ template : " .. link)
+            assert(hidden == false and message == "+ transmog : " .. link)
             assert(sender == "" and trailing == 42)
-            for _, unrelated in ipairs({"Player has come online.", "Guild: " .. original, original .. " Extra text", "You receive loot: " .. link .. ".", "+ template : " .. link}) do
+            for _, unrelated in ipairs({"Player has come online.", "Guild: " .. original, original .. " Extra text", "You receive loot: " .. link .. ".", "+ transmog : " .. link}) do
                 assert(select(2, appearanceFilter(nil, "CHAT_MSG_SYSTEM", unrelated)) == unrelated)
             end
         end

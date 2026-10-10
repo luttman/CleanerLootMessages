@@ -46,7 +46,7 @@ Coin colors apply only to English text in money messages. Blizzard's coin
 icons and other languages are left unchanged. Secret Retail messages are not
 inspected or modified.
 
-New appearance unlocks are displayed as `+ template : [Item name]`, preserving
+New appearance unlocks are displayed as `+ transmog : [Item name]`, preserving
 the item's color and clickable link. The filter matches the client's localized
 appearance notification exactly. Clients without that message format, unsupported
 formats and unrelated system messages keep their original text.
