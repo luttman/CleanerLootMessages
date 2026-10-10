@@ -135,7 +135,7 @@ local function ChatFilter(self, event, message, ...)
             message = ColorCurrencyString(message)
         end
     elseif event == "CHAT_MSG_SYSTEM" then
-        local link = message:match("(|c%x%x%x%x%x%x%x%x|H.-|h.-|h|r)") or message:match("(|H.-|h.-|h)")
+        local link = message:match("(|c[^|]+|H.-|h.-|h|r)") or message:match("(|H.-|h.-|h)")
         if link and message == string.format(appearanceFormat, link) then
             message = "+ template : " .. link
         end

@@ -69,6 +69,8 @@ local function check(modern, appearanceFormat, hasAppearanceFilter)
         assert(env.ERR_LEARN_TRANSMOG_S == appearanceFormat, "Blizzard's appearance format must be preserved")
         for _, link in ipairs({
             "|cffa335ee|Hitem:12345::::::::|h[Gloves (Heroic) + 100%]|h|r",
+            "|cnIQ4:|Hitem:12345::::::::|h[Rainwalker Boots]|h|r",
+            "|cnIQ3:|Hitem:12346::::::::|h[Sun-beaten Cloak]|h|r",
             "|Htransmogappearance:12345|h[Appearance]|h",
         }) do
             local original = string.format(appearanceFormat, link)
