@@ -51,11 +51,15 @@ the item's color and clickable link. The filter matches the client's localized
 appearance notification exactly. Clients without that message format, unsupported
 formats and unrelated system messages keep their original text.
 
+Skill increases are shortened to `Axes = 27` or `Skinning = 50`, using the
+client's skill name. Missing or incompatible skill message formats stay unchanged.
+
 Automated tests use mocked WoW APIs. They do not replace testing in the game.
 Before a release, enable `/console scriptErrors 1`, reload, and check self and
 party loot, stack counts, crafting, money, currency, XP and reputation on each
 client. On Retail, also test combat and `loadDeprecationFallbacks` disabled.
 Collect a new appearance and check the shortened notification and its link.
+Increase a weapon or profession skill and check the skill name and new rank.
 Check that item links still open and that there are no Lua or blocked-action
 errors, including alongside other chat addons.
 

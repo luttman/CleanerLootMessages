@@ -110,7 +110,8 @@ local translateTable = {
     ["FACTION_STANDING_INCREASED_BONUS"] = "%s + %d. (+%.1f bonus)",
     ["FACTION_STANDING_INCREASED_DOUBLE_BONUS"] = "%s + %d. (+%.1f + %.1f bonus)",
     ["FACTION_STANDING_INCREASED_GENERIC"] = "%s +",
-    ["SKILL_RANK_UP"] = "%s = %d"
+    ["SKILL_RANK_UP"] = "%s = %d",
+    ["ERR_SKILL_UP_SI"] = "%s = %d"
 };
 
 -- Apply translations

@@ -12,6 +12,7 @@ local function check(modern, appearanceFormat, hasAppearanceFilter)
         LOOT_ITEM = "%2$s received by %1$s", -- Localized argument ordering.
         LOOT_ITEM_PUSHED = "%s receives %s (%d)", -- Extra client argument.
         SKILL_RANK_UP = true, -- Unexpected client value.
+        ERR_SKILL_UP_SI = "Your skill in %s has increased to %d.",
         table = {}, -- WoW does not need the removed table.foreach helper.
         ERR_LEARN_TRANSMOG_S = appearanceFormat,
     }, { __index = _G })
@@ -42,6 +43,10 @@ local function check(modern, appearanceFormat, hasAppearanceFilter)
     assert(env.LOOT_ITEM == "%2$s received by %1$s")
     assert(env.LOOT_ITEM_PUSHED == "%s receives %s (%d)")
     assert(env.SKILL_RANK_UP == true)
+    assert(env.ERR_SKILL_UP_SI == "%s = %d")
+    for skill, rank in pairs({Axes = 27, Skinning = 50, Unarmed = 61, Guns = 50}) do
+        assert(string.format(env.ERR_SKILL_UP_SI, skill, rank) == skill .. " = " .. rank)
+    end
     assert(rawget(env, "LOOT_ITEM_REFUND") == nil)
     assert(rawget(env, "stringPaternMatch") == nil, "Helper leaked into WoW globals")
     assert(filters.CHAT_MSG_LOOT == nil, "Item names must not be recolored")
@@ -94,4 +99,4 @@ for _, modern in ipairs({false, true}) do
     check(modern, "%s / %d appearances collected.", false)
     check(modern, true, false)
 end
-print("PASS: chat APIs, formats, money, secret messages and localized appearance notifications with intact links")
+print("PASS: chat APIs, formats, money, secret messages, skill gains and localized appearance notifications with intact links")
