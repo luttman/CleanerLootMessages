@@ -1,4 +1,4 @@
-local function check(modern)
+local function check(modern, appearanceFormat, hasAppearanceFilter)
     local filters = {}
     local secret = setmetatable({}, { __index = function() error("Secret message was inspected") end })
     local env = setmetatable({
@@ -12,7 +12,9 @@ local function check(modern)
         LOOT_ITEM = "%2$s received by %1$s", -- Localized argument ordering.
         LOOT_ITEM_PUSHED = "%s receives %s (%d)", -- Extra client argument.
         SKILL_RANK_UP = true, -- Unexpected client value.
+        ERR_SKILL_UP_SI = "Your skill in %s has increased to %d.",
         table = {}, -- WoW does not need the removed table.foreach helper.
+        ERR_LEARN_TRANSMOG_S = appearanceFormat,
     }, { __index = _G })
     env._G = env
     local function register(event, callback)
@@ -41,6 +43,10 @@ local function check(modern)
     assert(env.LOOT_ITEM == "%2$s received by %1$s")
     assert(env.LOOT_ITEM_PUSHED == "%s receives %s (%d)")
     assert(env.SKILL_RANK_UP == true)
+    assert(env.ERR_SKILL_UP_SI == "%s = %d")
+    for skill, rank in pairs({Axes = 27, Skinning = 50, Unarmed = 61, Guns = 50}) do
+        assert(string.format(env.ERR_SKILL_UP_SI, skill, rank) == skill .. " = " .. rank)
+    end
     assert(rawget(env, "LOOT_ITEM_REFUND") == nil)
     assert(rawget(env, "stringPaternMatch") == nil, "Helper leaked into WoW globals")
     assert(filters.CHAT_MSG_LOOT == nil, "Item names must not be recolored")
@@ -56,8 +62,41 @@ local function check(modern)
     if modern then
         assert(filter(nil, "CHAT_MSG_MONEY", secret) == false)
     end
+
+    local appearanceFilter = filters.CHAT_MSG_SYSTEM
+    if hasAppearanceFilter then
+        assert(appearanceFilter)
+        assert(env.ERR_LEARN_TRANSMOG_S == appearanceFormat, "Blizzard's appearance format must be preserved")
+        for _, link in ipairs({
+            "|cffa335ee|Hitem:12345::::::::|h[Gloves (Heroic) + 100%]|h|r",
+            "|Htransmogappearance:12345|h[Appearance]|h",
+        }) do
+            local original = string.format(appearanceFormat, link)
+            local hidden, message, sender, trailing = appearanceFilter(nil, "CHAT_MSG_SYSTEM", original, "", 42)
+            assert(hidden == false and message == "+ template : " .. link)
+            assert(sender == "" and trailing == 42)
+            for _, unrelated in ipairs({"Player has come online.", "Guild: " .. original, original .. " Extra text", "You receive loot: " .. link .. ".", "+ template : " .. link}) do
+                assert(select(2, appearanceFilter(nil, "CHAT_MSG_SYSTEM", unrelated)) == unrelated)
+            end
+        end
+        assert(appearanceFilter(nil, "CHAT_MSG_SYSTEM", nil) == false)
+        local plain = string.format(appearanceFormat, "Item without a hyperlink")
+        assert(select(2, appearanceFilter(nil, "CHAT_MSG_SYSTEM", plain)) == plain)
+        if modern then
+            assert(appearanceFilter(nil, "CHAT_MSG_SYSTEM", secret) == false)
+        end
+    else
+        assert(appearanceFilter == nil, "Unsupported appearance formats must not register a filter")
+    end
 end
 
 check(false)
 check(true)
-print("PASS: legacy and modern chat APIs, formats, localization fallback, money and secret messages")
+for _, modern in ipairs({false, true}) do
+    check(modern, "%s has been added to your appearance collection.", true)
+    check(modern, "%s wurde deiner Vorlagensammlung hinzugefuegt.", true)
+    check(modern, "Appearance (%s) + [collection] 100%% unlocked!", true)
+    check(modern, "%s / %d appearances collected.", false)
+    check(modern, true, false)
+end
+print("PASS: chat APIs, formats, money, secret messages, skill gains and localized appearance notifications with intact links")

@@ -110,7 +110,8 @@ local translateTable = {
     ["FACTION_STANDING_INCREASED_BONUS"] = "%s + %d. (+%.1f bonus)",
     ["FACTION_STANDING_INCREASED_DOUBLE_BONUS"] = "%s + %d. (+%.1f + %.1f bonus)",
     ["FACTION_STANDING_INCREASED_GENERIC"] = "%s +",
-    ["SKILL_RANK_UP"] = "%s = %d"
+    ["SKILL_RANK_UP"] = "%s = %d",
+    ["ERR_SKILL_UP_SI"] = "%s = %d"
 };
 
 -- Apply translations
@@ -120,7 +121,9 @@ for k, v in pairs(translateTable) do
     end
 end
 
--- Chat filter to color currency messages
+local appearanceFormat = ERR_LEARN_TRANSMOG_S
+
+-- Format money and appearance collection messages.
 local function ChatFilter(self, event, message, ...)
     if (issecretvalue and issecretvalue(message)) or type(message) ~= "string" then
         return false
@@ -131,6 +134,11 @@ local function ChatFilter(self, event, message, ...)
         if message:match("%d+ Gold") or message:match("%d+ Silver") or message:match("%d+ Copper") then
             message = ColorCurrencyString(message)
         end
+    elseif event == "CHAT_MSG_SYSTEM" then
+        local link = message:match("(|c%x%x%x%x%x%x%x%x|H.-|h.-|h|r)") or message:match("(|H.-|h.-|h)")
+        if link and message == string.format(appearanceFormat, link) then
+            message = "+ template : " .. link
+        end
     end
     return false, message, ...
 end
@@ -138,3 +146,6 @@ end
 -- Register the chat filter
 local AddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
 AddMessageEventFilter("CHAT_MSG_MONEY", ChatFilter)
+if stringPaternMatch(appearanceFormat, "%s") then
+    AddMessageEventFilter("CHAT_MSG_SYSTEM", ChatFilter)
+end
