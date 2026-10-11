@@ -65,7 +65,7 @@ local function check(modern, appearanceFormat, hasAppearanceFormat)
 
     assert(filters.CHAT_MSG_SYSTEM == nil, "Appearance messages must not depend on a chat filter")
     if hasAppearanceFormat then
-        assert(env.ERR_LEARN_TRANSMOG_S == "+ transmog : %s")
+        assert(env.ERR_LEARN_TRANSMOG_S == "+ %s")
         for _, item in ipairs({
             "|cffa335ee|Hitem:12345::::::::|h[Gloves (Heroic) + 100%]|h|r",
             "|cnIQ4:|Hitem:12345::::::::|h[Rainwalker Boots]|h|r",
@@ -74,7 +74,7 @@ local function check(modern, appearanceFormat, hasAppearanceFormat)
             "|cffa335ee[Buckled Harness]|r",
             "[Buckled Harness]",
         }) do
-            assert(string.format(env.ERR_LEARN_TRANSMOG_S, item) == "+ transmog : " .. item)
+            assert(string.format(env.ERR_LEARN_TRANSMOG_S, item) == "+ " .. item)
         end
     else
         assert(env.ERR_LEARN_TRANSMOG_S == appearanceFormat, "Unsupported appearance formats must be preserved")

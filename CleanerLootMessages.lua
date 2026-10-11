@@ -112,7 +112,7 @@ local translateTable = {
     ["FACTION_STANDING_INCREASED_GENERIC"] = "%s +",
     ["SKILL_RANK_UP"] = "%s = %d",
     ["ERR_SKILL_UP_SI"] = "%s = %d",
-    ["ERR_LEARN_TRANSMOG_S"] = "+ transmog : %s"
+    ["ERR_LEARN_TRANSMOG_S"] = "+ %s"
 };
 
 -- Apply translations
