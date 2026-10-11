@@ -46,10 +46,10 @@ Coin colors apply only to English text in money messages. Blizzard's coin
 icons and other languages are left unchanged. Secret Retail messages are not
 inspected or modified.
 
-New appearance unlocks are displayed as `+ template : [Item name]`, preserving
-the item's color and clickable link. The filter matches the client's localized
-appearance notification exactly. Clients without that message format, unsupported
-formats and unrelated system messages keep their original text.
+New appearance unlocks are displayed as `+ [Item name]`, preserving
+the item's text, color and clickable link supplied by the client. Like loot and
+skill messages, this replaces the client's message template directly, without
+depending on a chat event. Missing or incompatible appearance formats stay unchanged.
 
 Skill increases are shortened to `Axes = 27` or `Skinning = 50`, using the
 client's skill name. Missing or incompatible skill message formats stay unchanged.

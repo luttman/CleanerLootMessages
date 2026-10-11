@@ -1,4 +1,4 @@
-local function check(modern, appearanceFormat, hasAppearanceFilter)
+local function check(modern, appearanceFormat, hasAppearanceFormat)
     local filters = {}
     local secret = setmetatable({}, { __index = function() error("Secret message was inspected") end })
     local env = setmetatable({
@@ -63,30 +63,21 @@ local function check(modern, appearanceFormat, hasAppearanceFilter)
         assert(filter(nil, "CHAT_MSG_MONEY", secret) == false)
     end
 
-    local appearanceFilter = filters.CHAT_MSG_SYSTEM
-    if hasAppearanceFilter then
-        assert(appearanceFilter)
-        assert(env.ERR_LEARN_TRANSMOG_S == appearanceFormat, "Blizzard's appearance format must be preserved")
-        for _, link in ipairs({
+    assert(filters.CHAT_MSG_SYSTEM == nil, "Appearance messages must not depend on a chat filter")
+    if hasAppearanceFormat then
+        assert(env.ERR_LEARN_TRANSMOG_S == "+ %s")
+        for _, item in ipairs({
             "|cffa335ee|Hitem:12345::::::::|h[Gloves (Heroic) + 100%]|h|r",
+            "|cnIQ4:|Hitem:12345::::::::|h[Rainwalker Boots]|h|r",
+            "|cnIQ3:|Hitem:12346::::::::|h[Sun-beaten Cloak]|h|r",
             "|Htransmogappearance:12345|h[Appearance]|h",
+            "|cffa335ee[Buckled Harness]|r",
+            "[Buckled Harness]",
         }) do
-            local original = string.format(appearanceFormat, link)
-            local hidden, message, sender, trailing = appearanceFilter(nil, "CHAT_MSG_SYSTEM", original, "", 42)
-            assert(hidden == false and message == "+ template : " .. link)
-            assert(sender == "" and trailing == 42)
-            for _, unrelated in ipairs({"Player has come online.", "Guild: " .. original, original .. " Extra text", "You receive loot: " .. link .. ".", "+ template : " .. link}) do
-                assert(select(2, appearanceFilter(nil, "CHAT_MSG_SYSTEM", unrelated)) == unrelated)
-            end
-        end
-        assert(appearanceFilter(nil, "CHAT_MSG_SYSTEM", nil) == false)
-        local plain = string.format(appearanceFormat, "Item without a hyperlink")
-        assert(select(2, appearanceFilter(nil, "CHAT_MSG_SYSTEM", plain)) == plain)
-        if modern then
-            assert(appearanceFilter(nil, "CHAT_MSG_SYSTEM", secret) == false)
+            assert(string.format(env.ERR_LEARN_TRANSMOG_S, item) == "+ " .. item)
         end
     else
-        assert(appearanceFilter == nil, "Unsupported appearance formats must not register a filter")
+        assert(env.ERR_LEARN_TRANSMOG_S == appearanceFormat, "Unsupported appearance formats must be preserved")
     end
 end
 
@@ -97,6 +88,8 @@ for _, modern in ipairs({false, true}) do
     check(modern, "%s wurde deiner Vorlagensammlung hinzugefuegt.", true)
     check(modern, "Appearance (%s) + [collection] 100%% unlocked!", true)
     check(modern, "%s / %d appearances collected.", false)
+    check(modern, "%1$s has been added.", false)
+    check(modern, "%d has been added.", false)
     check(modern, true, false)
 end
 print("PASS: chat APIs, formats, money, secret messages, skill gains and localized appearance notifications with intact links")
